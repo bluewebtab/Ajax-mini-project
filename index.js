@@ -1,6 +1,9 @@
-function getProfile(){
-    var username = 'bluewebtab'
-    
+function getProfile(e){
+    e.preventDefault();
+    var username = document.getElementById('username').value;
+    if(!username || username == ''){
+       username = 'bluewebtab';
+       }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState = 4 && xhttp.status == 200){
@@ -15,7 +18,13 @@ function getProfile(){
               <img src = "${user.avatar_url}"
               </div>
               <div class="col-md-9>
-
+               <span class="label label-primary">Public Gist: ${user.public_repos}</span>
+               <span class="label label-danger">Public Repos: ${user.public_gists}</span>
+                <ul class="list-group">
+                  <li class="list-group-item">Website: ${user.blog}</li>
+                  <li class="list-group-item">Email: ${user.email}</li>
+                  </ul>
+                <a  class = "btn btn-default" target = "_blank" href = "${user.html_url}">Visit Github</a>
              </div>
              </div>
              </div>
@@ -25,4 +34,4 @@ function getProfile(){
     xhttp.open('GET', 'https://api.github.com/users/' + username, true);
     xhttp.send();
 }
-getProfile();
+document.getElementById('userForm').addEventListener('submit', getProfile, false);
